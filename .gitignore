@@ -1,0 +1,17 @@
+# Java and Tooling
+target/
+build/
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+.vscode/
+
+# Project Specific
+graph.db
+*.sqlite
+scratch/
+
+# OS
+.DS_Store
