@@ -43,6 +43,25 @@ public class FileDao {
     }
 
     /**
+     * Retrieves all stored hashes for all files.
+     * <p>
+     * @return A map of file paths to their hashes.
+     * @throws SQLException If the query fails.
+     */
+    public java.util.Map<String, String> getAllFileHashes() throws SQLException {
+        java.util.Map<String, String> hashes = new java.util.HashMap<>();
+        String sql = "SELECT path, md5_hash FROM files";
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                hashes.put(rs.getString("path"), rs.getString("md5_hash"));
+            }
+        }
+        return hashes;
+    }
+
+    /**
      * Inserts or updates the hash for a specific file.
      * <p>
      * @implNote WRITES to the 'files' table.
