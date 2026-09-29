@@ -15,7 +15,7 @@ This document maintains the high-level progress of the project, updated after ev
 - [x] Milestone 2.3: Recursive CTE Database Queries
 
 ## Phase 3: API & Export Layer
-- [ ] Milestone 3.1: JSON Graph Export
+- [x] Milestone 3.1: JSON Graph Export
 - [ ] Milestone 3.2: REST API Setup
 
 ## Phase 4: Local Web UI

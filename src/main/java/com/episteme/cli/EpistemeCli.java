@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
     mixinStandardHelpOptions = true,
     version = "1.0.0",
     description = "Episteme: AI Codebase Orchestration & Knowledge Graph Engine",
-    subcommands = { IndexCommand.class, WebUiCommand.class }
+    subcommands = { IndexCommand.class, WebUiCommand.class, ExportCommand.class }
 )
 public class EpistemeCli implements Callable<Integer> {
 
