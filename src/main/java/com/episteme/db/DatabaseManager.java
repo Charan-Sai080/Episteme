@@ -63,7 +63,7 @@ public class DatabaseManager {
                     file_id INTEGER,
                     kind TEXT NOT NULL,
                     name TEXT NOT NULL,
-                    fqn TEXT NOT NULL,
+                    fqn TEXT NOT NULL UNIQUE,
                     is_external BOOLEAN,
                     FOREIGN KEY(file_id) REFERENCES files(id)
                 )""");
