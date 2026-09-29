@@ -83,9 +83,21 @@ public class ProjectIndexer {
             
             launcher.buildModel();
             
-            // Note: AST Contract extraction logic will go here for Phase 1.5
-            // ContractExtractor extractor = new ContractExtractor(dbManager, fileDao.getSymbolDao());
-            // launcher.getModel().getRootPackage().accept(extractor);
+            com.episteme.db.SymbolDao symbolDao = new com.episteme.db.SymbolDao(dbManager);
+            ContractExtractor contractExtractor = new ContractExtractor(dbManager, symbolDao);
+            for (spoon.reflect.declaration.CtType<?> type : launcher.getModel().getAllTypes()) { type.accept(contractExtractor); }
+            
+            com.episteme.db.EdgeDao edgeDao = new com.episteme.db.EdgeDao(dbManager);
+            com.episteme.indexer.SymbolResolver symbolResolver = new com.episteme.indexer.SymbolResolver(dbManager);
+            com.episteme.indexer.EdgeBuilder edgeBuilder = new com.episteme.indexer.EdgeBuilder(symbolResolver, edgeDao);
+            com.episteme.indexer.ExecutionTraceExtractor traceExtractor = new com.episteme.indexer.ExecutionTraceExtractor(edgeBuilder);
+            for (spoon.reflect.declaration.CtType<?> type : launcher.getModel().getAllTypes()) { type.accept(traceExtractor); }
+            
+            try {
+                edgeDao.flush();
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to flush edges", e);
+            }
             
             for (File file : batch) {
                 fileDao.upsertFileHash(file.getAbsolutePath(), newHashes.get(file));
